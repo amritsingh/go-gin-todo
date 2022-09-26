@@ -1,0 +1,58 @@
+{{ define "/todos/index.html"}}
+    {{ template "layouts/header.html" .}}
+        <h1>Todos</h1>
+
+        <br/>
+
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <script type="text/javascript">
+            function todoStateChange(element) {
+                var xhttp = new XMLHttpRequest();
+                id = parseInt(element.id.split("-")[1])
+                xhttp.onreadystatechange = function() {};
+                xhttp.open("POST", "/todos/complete", true);
+                params = {
+                    id: id,
+                    state: element.checked
+                }
+                xhttp.setRequestHeader("Accept", "application/json")
+                xhttp.setRequestHeader("Content-Type", "application/json")
+                xhttp.send(JSON.stringify(params))
+            }
+        </script>
+
+        <div class="accordion" id="accordionTodos">
+            {{ with .todos }}
+                {{ range . }}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" 
+                            id="panelsStayOpen-heading-{{.ID}}" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#panelsStayOpen-collapse-{{.ID}}" 
+                            aria-expanded="false" aria-controls="panelsStayOpen-collapse-{{.ID}}">
+                            <div class="flex-parent-element-{{.ID}} accordion-button collapsed">
+                                <input class="flex-child-element-{{.ID}} form-check-input me-1" 
+                                    type="checkbox" value="" 
+                                    id="checkbox-{{.ID}}" 
+                                    name="checkbox-{{.ID}}" onClick="todoStateChange(this)"
+                                   {{if .Complete}}
+                                        checked
+                                   {{end}}
+                                ><strong>{{.Title}}</strong></input>
+                            </div>
+                        </h2>
+                        <div id="panelsStayOpen-collapse-{{.ID}}" 
+                            class="accordion-collapse collapse" 
+                            aria-labelledby="panelsStayOpen-heading-{{.ID}}">
+                            <div class="accordion-body">
+                                {{.Detail}}
+                            </div>
+                        </div>
+                    </div>
+                {{end}}
+            {{end}}
+        </div>
+        <a class="btn btn-outline-primary" href="/todos/new" role="button">New Todo</a>
+    {{ template "layouts/footer.html" .}}
+{{ end }}

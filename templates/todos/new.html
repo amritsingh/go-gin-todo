@@ -1,0 +1,19 @@
+{{ define "todos/new.html"}}
+    {{ template "layouts/header.html" .}}
+        <form class="row g-3" action="/todos" method="POST">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" 
+                    aria-describedby="titleHelp" name="title">
+                <div id="titleHelp" class="form-text">Title of the note</div>
+            </div>
+            <div class="mb-3">
+                <label for="detail" class="form-label">Detail</label>
+                <textarea class="form-control" id="detail" rows="5" name="detail"></textarea>
+            </div>
+            <div class="mx-auto">
+                <button type="submit" class="btn btn-primary mx-auto">Submit</button>
+            </div>
+        </form>
+    {{ template "layouts/footer.html" .}}
+{{ end }}

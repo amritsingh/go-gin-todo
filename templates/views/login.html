@@ -1,0 +1,5 @@
+{{ define "views/login.html"}}
+    {{ template "layouts/header.html" .}}
+    <a class="btn btn-outline-primary" href="{{.authUrl}}" role="button">Login</a>
+    {{ template "layouts/footer.html" .}}
+{{ end }}
